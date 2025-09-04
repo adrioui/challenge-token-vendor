@@ -38,8 +38,8 @@ const deployVendor: DeployFunction = async function (hre: HardhatRuntimeEnvironm
   const vendorAddress = await vendor.getAddress();
   // Transfer tokens to Vendor
   await yourToken.transfer(vendorAddress, hre.ethers.parseEther("1000"));
-  // // Transfer contract ownership to your frontend address
-  // await vendor.transferOwnership("0xcdF9516448BeB88E12a81171bFeEe072ea479579");
+  // Transfer contract ownership to your frontend address
+  await vendor.transferOwnership("0xcdF9516448BeB88E12a81171bFeEe072ea479579");
 };
 
 export default deployVendor;

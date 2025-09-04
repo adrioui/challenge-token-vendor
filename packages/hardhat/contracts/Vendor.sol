@@ -1,21 +1,20 @@
 pragma solidity 0.8.20; //Do not change the solidity version as it negatively impacts submission grading
 // SPDX-License-Identifier: MIT
 
-// import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "./YourToken.sol";
 
-contract Vendor {
+contract Vendor is Ownable {
     event BuyTokens(address buyer, uint256 amountOfETH, uint256 amountOfTokens);
 
     YourToken public yourToken;
 
-    constructor(address tokenAddress) {
+    constructor(address tokenAddress) Ownable(msg.sender) {
         yourToken = YourToken(tokenAddress);
     }
 
     uint256 public constant tokensPerEth = 100;
 
-    // ToDo: create a payable buyTokens() function:
     function buyTokens() public payable {
       require(msg.value > 0, "Send ETH to buy tokens");
 
@@ -30,6 +29,13 @@ contract Vendor {
     }
 
     // ToDo: create a withdraw() function that lets the owner withdraw ETH
+    function withdraw() external onlyOwner {
+      uint256 balance = address(this).balance;
+      require(balance > 0, "No ETH to withdraw");
+
+      (bool success, ) = owner().call{value: balance}("");
+      require(success, "Withdraw failed");
+    }
 
     // ToDo: create a sellTokens(uint256 _amount) function:
 }
