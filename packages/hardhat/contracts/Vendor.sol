@@ -6,6 +6,7 @@ import "./YourToken.sol";
 
 contract Vendor is Ownable {
     event BuyTokens(address buyer, uint256 amountOfETH, uint256 amountOfTokens);
+    event SellTokens(address seller, uint256 amountOfETH, uint256 amountOfTokens);
 
     YourToken public yourToken;
 
@@ -28,7 +29,6 @@ contract Vendor is Ownable {
       emit BuyTokens(msg.sender, msg.value, tokensToBuy);
     }
 
-    // ToDo: create a withdraw() function that lets the owner withdraw ETH
     function withdraw() external onlyOwner {
       uint256 balance = address(this).balance;
       require(balance > 0, "No ETH to withdraw");
@@ -37,5 +37,21 @@ contract Vendor is Ownable {
       require(success, "Withdraw failed");
     }
 
-    // ToDo: create a sellTokens(uint256 _amount) function:
+    function sellTokens(uint256 amount) external {
+      require(amount > 0, "Amount should be more than zero!");
+
+      uint256 allowance = yourToken.allowance(msg.sender, address(this));
+      require(allowance >= amount, "Check the token allowance");
+
+      bool received = yourToken.transferFrom(msg.sender, address(this), amount);
+      require(received, "Token transfer failed");
+
+      uint256 ethToTransfer = (amount * 1 ether) / (tokensPerEth * 1e18);
+      require(address(this).balance >= ethToTransfer, "Vendor: insufficient ETH balance");
+
+      (bool success, ) = msg.sender.call{value: ethToTransfer}("");
+      require(success, "ETH transfer failed");
+
+      emit BuyTokens(msg.sender, ethToTransfer, amount);
+    }
 }
