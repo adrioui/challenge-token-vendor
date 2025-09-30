@@ -52,6 +52,6 @@ contract Vendor is Ownable {
       (bool success, ) = msg.sender.call{value: ethToTransfer}("");
       require(success, "ETH transfer failed");
 
-      emit BuyTokens(msg.sender, ethToTransfer, amount);
+      emit SellTokens(msg.sender, ethToTransfer, amount);
     }
 }
