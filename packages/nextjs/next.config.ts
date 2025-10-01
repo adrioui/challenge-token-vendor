@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -9,6 +10,8 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  output: "standalone",
+  outputFileTracingRoot: path.join(__dirname, "../../"),
   webpack: config => {
     config.resolve.fallback = { fs: false, net: false, tls: false };
     config.externals.push("pino-pretty", "lokijs", "encoding");
@@ -20,6 +23,7 @@ const isIpfs = process.env.NEXT_PUBLIC_IPFS_BUILD === "true";
 
 if (isIpfs) {
   nextConfig.output = "export";
+  delete (nextConfig as Record<string, unknown>).outputFileTracingRoot;
   nextConfig.trailingSlash = true;
   nextConfig.images = {
     unoptimized: true,

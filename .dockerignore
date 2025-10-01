@@ -1,0 +1,35 @@
+# Node modules & caches
+node_modules
+packages/*/node_modules
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.yarn/cache
+.yarn/build-state.yml
+
+# Next.js build output
+.next
+packages/nextjs/.next
+packages/nextjs/out
+
+# Hardhat artifacts
+packages/hardhat/artifacts
+packages/hardhat/cache
+packages/hardhat/typechain-types
+
+# VCS
+.git
+.gitignore
+
+# Environment & local config
+.env
+.env.*
+!.env.example
+
+# Misc
+coverage
+*.log
+Dockerfile*
+DOCKERFILE_ANALYSIS.md
