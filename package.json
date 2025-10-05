@@ -41,6 +41,10 @@
     "next:format": "yarn workspace @se-2/nextjs format",
     "next:lint": "yarn workspace @se-2/nextjs lint",
     "next:serve": "yarn workspace @se-2/nextjs serve",
+    "next:preview": "WRANGLER_ENV=${WRANGLER_ENV:-production} yarn workspace @se-2/nextjs preview",
+    "next:deploy": "WRANGLER_ENV=${WRANGLER_ENV:-production} yarn workspace @se-2/nextjs deploy",
+    "next:upload": "WRANGLER_ENV=${WRANGLER_ENV:-production} yarn workspace @se-2/nextjs upload",
+    "next:cf-typegen": "yarn workspace @se-2/nextjs cf-typegen",
     "precommit": "lint-staged",
     "start": "yarn workspace @se-2/nextjs dev",
     "test": "yarn hardhat:test",
@@ -51,10 +55,14 @@
   },
   "devDependencies": {
     "husky": "~9.1.6",
-    "lint-staged": "~13.2.2"
+    "lint-staged": "~13.2.2",
+    "wrangler": "latest"
   },
   "packageManager": "yarn@3.2.3",
   "engines": {
     "node": ">=20.18.3"
+  },
+  "dependencies": {
+    "@opennextjs/cloudflare": "latest"
   }
 }
